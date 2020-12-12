@@ -82,6 +82,7 @@ router.post("/categories/update", (req,res) => { //atualizando uma rota
     Category.update({title: title, slug: slugify(title)},{//slugify atualizando o titulo com base nele
         where: {id: id}
     }).then(() => {
+        
         res.redirect("/admin/categories");
     })
 })

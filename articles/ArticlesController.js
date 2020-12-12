@@ -59,21 +59,19 @@
 
 
 
+    router.post("/articles/update", (req,res) => { //atualizando uma rota
+        var id = req.body.id;
+        var title = req.body.title;
+        var body = req.body.body;
+    
+
+        Article.update({title: title,body: body, slug: slugify(title)},{//slugify atualizando o titulo com base nele
+            where: {id: id}
+        }).then(() => {
+            res.redirect("/admin/articles");
+        })
+
+    })
 
 
-    module.exports = router; //exportando para linkar no arquivo principal (index.js)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+module.exports = router; //exportando para linkar no arquivo principal (index.js)
