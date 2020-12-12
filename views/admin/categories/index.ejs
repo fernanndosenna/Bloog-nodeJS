@@ -1,0 +1,77 @@
+    <!--ARQUIVO DE LISTAGEM DE CATEGORIAS-->
+<%- include ("../../partials/header.ejs") %>
+<%- include ("../../partials/navbar.ejs") %>
+<div class="container">
+    <hr>
+    <h2>Categorias</h2>
+    <a class="btn btn-success" href="/admin/categories/new">Criar nova categoria</a>
+    <hr>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Título</th>
+                <th>Slug</th>
+                <th>açoes</th>
+            </tr>
+        </thead>
+        <tbody>
+         
+            <% categories.forEach(category => {%>
+                <tr>
+                    <th><%= category.id %></th>
+                    <th><%= category.title %></th>
+                    <th><%= category.slug %></th>
+                    <th>
+                        <a href="/admin/categories/edit/<%= category.id %>" class="btn btn-warning">Editar</a>
+
+                        <form action="/categories/delete" method="post" style="display: inline;" onsubmit="confirmarDelecao(event, this)">
+                        <input type="hidden" name="id" value="<%= category.id %>">
+                        <button class="btn btn-danger">Deletar</button>
+                        </form>
+
+                    </th>
+                </tr>
+            <% }) %>
+        </tbody>
+    </table>
+</div>
+<%- include ("../../partials/footer.ejs") %>
+
+<!--evitando acidentes caso haja um click errado-->
+<script>
+    function confirmarDelecao(event, form){
+        event.preventDefault();
+        var decision = confirm("Você tem certeza que quer deletar?")
+        if(decision){
+            form.submit();
+        }
+   
+    }
+
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

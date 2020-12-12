@@ -1,0 +1,17 @@
+Instalacoes
+npm init
+npm install --save express
+npm install --save sequelize
+npm install --save mysql2
+npm install --save body-parser
+npm install --save ejs
+npm install nodemon
+npm install --save slugify
+
+download da biblioteca do editor de texto 
+https://www.tiny.cloud/get-tiny/self-hosted/
+
+download do idioma do tiny
+https://www.tiny.cloud/get-tiny/language-packages/
+rotas
+http://localhost:8080/admin/categories
