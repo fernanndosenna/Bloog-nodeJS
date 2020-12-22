@@ -2,17 +2,29 @@
 const express = require("express");
 const app = express();
 const bodyParser = require("body-parser");
+const session = require("express-session"); //sistema de login
 const connection = require("./database/database") //conexão banco
 
 const categoriesController = require("./categories/CategoriesController")
 const articlesController = require("./articles/ArticlesController")
+const usersController = require("./users/UsersController")
 
 const Article = require("./articles/Article");
 const Category = require("./categories/Category");
+const User = require("./users/User")
 
              //CONFIGURAÇOES//
 //template ejs
 app.set("view engine","ejs");
+
+
+//sessions para sistema de login
+
+app.use(session({ //gerando a sessao para o login para ter acesso a todas as rotas admin
+    secret: "qualquercoisa", cookie: {maxAge:30000}
+}))
+
+
 
 //express para arquivos estaticos
 app.use(express.static('public'));
@@ -35,12 +47,39 @@ connection
 //importando rotas dos controllers
 app.use("/", categoriesController);
 app.use("/", articlesController);
+app.use("/", usersController);
+
+app.get("/session", (req, res) => { //rota  que irá gerar sessoes
+    //toda vez que acessar a rota, os dados serão salvos numa sessao.
+    req.session.treinamento = "Formaçao NodeJS"
+    req.session.ano = 2019
+    req.session.email = "fernando@gmail.com"
+    req.session.user = {
+        username: "fernadosena",
+        email: "fernando@gmail.com",
+        id: 10
+    }
+    res.send("Sessão gerada!");
+})
+
+app.get("/leitura", (req, res) => { //leitura de ssoes
+    res.json({
+        treinamento: req.session.treinamento,
+        ano: req.session.ano,
+        email: req.session.email,
+        user: req.session.user
+    })
+})
+
+
+
 
 app.get("/", (req,res) => { //rendeizando a homepage, e os artigos nela
     Article.findAll({
         order: [
             ["id", "DESC"]
-        ]
+        ],
+        limit: 4
     }).then(articles => {
 
         Category.findAll().then(categories => { //passando as categories para a view principal para mostrar elas dinamicamente
