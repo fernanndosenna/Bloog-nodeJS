@@ -2,10 +2,11 @@ const express = require('express');
 const router = express.Router();
 const User = require('./User')
 const bcrypt = require('bcryptjs');
+const adminAuth = require("../middlewares/adminAuth")
 
 
 
-router.get("/admin/users", (req, res) => { //listagem de usuarios
+router.get("/admin/users",adminAuth, (req, res) => { //listagem de usuarios
 
     User.findAll().then(users => {
         res.render("admin/users/index", {users: users} );
